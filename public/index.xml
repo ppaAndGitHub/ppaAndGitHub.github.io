@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>My New Hugo Project</title>
+    <link>https://example.org/</link>
+    <description>Recent content on My New Hugo Project</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 May 2026 20:43:26 +0800</lastBuildDate>
+    <atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hello World</title>
+      <link>https://example.org/posts/hello-world/</link>
+      <pubDate>Sat, 23 May 2026 20:43:26 +0800</pubDate>
+      <guid>https://example.org/posts/hello-world/</guid>
+      <description>&lt;p&gt;欢迎来到我的个人网站&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

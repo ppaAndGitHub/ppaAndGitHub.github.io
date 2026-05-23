@@ -1,4 +1,5 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://ppaAndGitHub.github.io/my-website/'
 locale = 'en-us'
 title = 'My New Hugo Project'
 theme = "PaperMod"
+publishDir = 'docs'

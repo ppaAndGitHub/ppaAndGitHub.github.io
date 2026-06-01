@@ -1,0 +1,12 @@
+# 含手机、邮箱等隐私，勿部署到 GitHub Pages
+_private/
+static/我的简历.pdf
+static/微信图片*.jpg
+docs/我的简历.pdf
+docs/微信图片*.jpg
+
+# Hugo 本地构建缓存
+.hugo_build.lock
+public/
+
+.DS_Store

@@ -1,13 +1,21 @@
+/* ===== 首页名片 ===== */
 .main .profile .profile_inner h1 {
-  font-size: 2.25rem;
+  font-size: 2.35rem;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
 
 .main .profile .profile_inner > span {
-  line-height: 1.6;
-  max-width: 28rem;
+  line-height: 1.75;
+  max-width: 34rem;
   color: var(--secondary);
+  font-size: 0.95rem;
+}
+
+.main .profile .buttons {
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  max-width: 22rem;
 }
 
 .main .profile .buttons .button {
@@ -15,5 +23,104 @@
 }
 
 .main .profile .buttons .button:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+}
+
+/* ===== 内容页通用 ===== */
+.post-content h2 {
+  margin-top: 2.25rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--border);
+  font-size: 1.4rem;
+}
+
+.post-content h2:first-of-type {
+  margin-top: 0.25rem;
+}
+
+.post-content h3 {
+  margin-top: 1.65rem;
+  margin-bottom: 0.45rem;
+  font-size: 1.08rem;
+  color: var(--primary);
+}
+
+.post-content > p:first-of-type {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--secondary);
+}
+
+.post-content ul {
+  margin: 0.5rem 0 1.25rem;
+  padding-left: 1.25rem;
+}
+
+.post-content li {
+  margin-bottom: 0.4rem;
+  line-height: 1.65;
+}
+
+.post-content table {
+  width: 100%;
+  margin: 1rem 0 1.5rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.post-content table th,
+.post-content table td {
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.post-content table th {
+  background: var(--tertiary);
+  font-weight: 600;
+}
+
+.post-content hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+.post-content blockquote {
+  margin: 1.5rem 0 0;
+  padding: 0.9rem 1.15rem;
+  border-left: 3px solid var(--theme);
+  background: var(--tertiary);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--secondary);
+  font-size: 0.88rem;
+}
+
+.post-content strong {
+  color: var(--primary);
+}
+
+/* 经历页：时间标签 */
+.post-content h3 + p code,
+.post-content h3 code {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.8rem;
+  font-family: var(--font-family);
+  background: var(--tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--secondary);
+}
+
+.post-content h3 + p:has(code) {
+  margin-top: -0.25rem;
+}
+
+/* 关于页首段强调 */
+.post-single .post-header .post-description {
+  font-size: 1rem;
+  color: var(--secondary);
 }

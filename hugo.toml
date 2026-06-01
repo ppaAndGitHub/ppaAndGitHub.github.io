@@ -1,7 +1,7 @@
 baseURL = 'https://ppaAndGitHub.github.io/'
 defaultContentLanguage = 'zh-cn'
 locale = 'zh-cn'
-title = '你的名字'
+title = 'yyt'
 theme = 'PaperMod'
 publishDir = 'docs'
 
@@ -11,28 +11,34 @@ publishDir = 'docs'
   ShowReadingTime = true
   ShowShareButtons = false
   ShowPostNavLinks = true
-  ShowBreadCrumbs = false
+  ShowBreadCrumbs = true
   ShowCodeCopyButtons = true
 
   [params.profileMode]
     enabled = true
-    title = '你的名字'
+    title = 'yyt'
     subtitle = '''
-一名热爱技术的开发者。
-欢迎来访我的个人主页。
+前端开发工程师 · 深圳
+
+11 年 Web 前端经验 · Vue / React / UniApp
+曾带领 3–5 人团队 · 7+ 小程序与跨端 App 上线
 '''
     imageUrl = 'images/avatar.jpg'
     imageWidth = 160
     imageHeight = 160
-    imageTitle = '头像'
+    imageTitle = 'yyt'
 
     [[params.profileMode.buttons]]
-      name = '博客'
-      url = 'posts/'
+      name = '关于我'
+      url = 'about/'
 
     [[params.profileMode.buttons]]
-      name = 'GitHub'
-      url = 'https://github.com/ppaAndGitHub'
+      name = '工作经历'
+      url = 'experience/'
+
+    [[params.profileMode.buttons]]
+      name = '爱好'
+      url = 'hobbies/'
 
   [[params.socialIcons]]
     name = 'github'
@@ -46,10 +52,28 @@ publishDir = 'docs'
     weight = 10
 
   [[menu.main]]
+    identifier = 'about'
+    name = '关于'
+    url = '/about/'
+    weight = 15
+
+  [[menu.main]]
+    identifier = 'experience'
+    name = '经历'
+    url = '/experience/'
+    weight = 20
+
+  [[menu.main]]
+    identifier = 'hobbies'
+    name = '爱好'
+    url = '/hobbies/'
+    weight = 25
+
+  [[menu.main]]
     identifier = 'posts'
     name = '文章'
     url = '/posts/'
-    weight = 20
+    weight = 30
 
 [outputs]
   home = ['HTML', 'RSS', 'JSON']

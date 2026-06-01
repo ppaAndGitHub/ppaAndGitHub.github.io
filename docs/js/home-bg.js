@@ -42,18 +42,24 @@
   const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, active: false };
 
   const particleConfig = {
-    count: 48,
-    maxDist: 130,
-    speed: 0.32,
+    count: 64,
+    maxDist: 150,
+    mouseLinkDist: 220,
+    followX: 0.62,
+    followY: 0.55,
+    lerpActive: 0.16,
+    lerpIdle: 0.06,
     light: {
-      dot: "rgba(99, 102, 241, 0.5)",
-      line: "rgba(99, 102, 241, 0.1)",
-      dotSize: 2,
+      dot: "rgba(99, 102, 241, 0.55)",
+      line: "rgba(99, 102, 241, 0.12)",
+      mouseLine: "rgba(99, 102, 241, 0.22)",
+      dotSize: 2.2,
     },
     dark: {
-      dot: "rgba(167, 139, 250, 0.45)",
-      line: "rgba(167, 139, 250, 0.12)",
-      dotSize: 1.8,
+      dot: "rgba(167, 139, 250, 0.5)",
+      line: "rgba(167, 139, 250, 0.14)",
+      mouseLine: "rgba(196, 181, 253, 0.28)",
+      dotSize: 2,
     },
   };
 
@@ -182,18 +188,23 @@
   }
 
   function initParticles() {
-    particles = Array.from({ length: particleConfig.count }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      vx: (Math.random() - 0.5) * particleConfig.speed,
-      vy: (Math.random() - 0.5) * particleConfig.speed,
-      depth: 0.35 + Math.random() * 0.65,
-    }));
+    particles = Array.from({ length: particleConfig.count }, () => {
+      const ox = Math.random() * w;
+      const oy = Math.random() * h;
+      return {
+        ox,
+        oy,
+        x: ox,
+        y: oy,
+        depth: 0.3 + Math.random() * 0.7,
+      };
+    });
   }
 
   function updateMouse() {
-    mouse.x += (mouse.tx - mouse.x) * 0.07;
-    mouse.y += (mouse.ty - mouse.y) * 0.07;
+    const speed = mouse.active ? 0.18 : 0.08;
+    mouse.x += (mouse.tx - mouse.x) * speed;
+    mouse.y += (mouse.ty - mouse.y) * speed;
   }
 
   function updateGradientParallax() {
@@ -243,43 +254,49 @@
       getTheme() === "dark" ? particleConfig.dark : particleConfig.light;
     const mx = mouse.x * w;
     const my = mouse.y * h;
-    const parallaxX = (mouse.x - 0.5) * 36;
-    const parallaxY = (mouse.y - 0.5) * 28;
+    const shiftX = (mouse.x - 0.5) * w * particleConfig.followX;
+    const shiftY = (mouse.y - 0.5) * h * particleConfig.followY;
+    const lerp = mouse.active
+      ? particleConfig.lerpActive
+      : particleConfig.lerpIdle;
 
     for (const p of particles) {
-      if (mouse.active) {
-        const dx = mx - p.x;
-        const dy = my - p.y;
-        const dist = Math.hypot(dx, dy) || 1;
-        if (dist < 200) {
-          const pull = ((200 - dist) / 200) * 0.022 * p.depth;
-          p.vx += (dx / dist) * pull;
-          p.vy += (dy / dist) * pull;
-        }
-      }
-      p.vx *= 0.995;
-      p.vy *= 0.995;
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0 || p.x > w) p.vx *= -1;
-      if (p.y < 0 || p.y > h) p.vy *= -1;
+      p.ox += (Math.random() - 0.5) * 0.2;
+      p.oy += (Math.random() - 0.5) * 0.2;
+      p.ox = Math.max(20, Math.min(w - 20, p.ox));
+      p.oy = Math.max(20, Math.min(h - 20, p.oy));
+
+      const targetX = p.ox + shiftX * p.depth;
+      const targetY = p.oy + shiftY * p.depth;
+      p.x += (targetX - p.x) * lerp;
+      p.y += (targetY - p.y) * lerp;
     }
 
-    const positions = particles.map((p) => ({
-      x: p.x + parallaxX * p.depth,
-      y: p.y + parallaxY * p.depth,
-      p,
-    }));
+    if (mouse.active) {
+      for (const p of particles) {
+        const dist = Math.hypot(mx - p.x, my - p.y);
+        if (dist < particleConfig.mouseLinkDist) {
+          ctx.strokeStyle = palette.mouseLine;
+          ctx.lineWidth = 1;
+          ctx.globalAlpha =
+            (1 - dist / particleConfig.mouseLinkDist) * 0.75 * p.depth;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(mx, my);
+          ctx.stroke();
+        }
+      }
+    }
 
-    for (let i = 0; i < positions.length; i++) {
-      for (let j = i + 1; j < positions.length; j++) {
-        const a = positions[i];
-        const b = positions[j];
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i];
+        const b = particles[j];
         const dist = Math.hypot(a.x - b.x, a.y - b.y);
         if (dist < particleConfig.maxDist) {
           ctx.strokeStyle = palette.line;
           ctx.lineWidth = 1;
-          ctx.globalAlpha = (1 - dist / particleConfig.maxDist) * 0.85;
+          ctx.globalAlpha = (1 - dist / particleConfig.maxDist) * 0.9;
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
           ctx.lineTo(b.x, b.y);
@@ -287,11 +304,19 @@
         }
       }
     }
+
     ctx.globalAlpha = 1;
-    for (const { x, y, p } of positions) {
+    for (const p of particles) {
       ctx.fillStyle = palette.dot;
       ctx.beginPath();
-      ctx.arc(x, y, palette.dotSize * (0.85 + p.depth * 0.2), 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, palette.dotSize * (0.8 + p.depth * 0.25), 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    if (mouse.active) {
+      ctx.fillStyle = palette.dot;
+      ctx.beginPath();
+      ctx.arc(mx, my, 3.5, 0, Math.PI * 2);
       ctx.fill();
     }
   }

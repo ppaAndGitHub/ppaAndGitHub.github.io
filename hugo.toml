@@ -21,7 +21,7 @@ publishDir = 'docs'
 一名热爱技术的开发者。
 欢迎来访我的个人主页。
 '''
-    imageUrl = 'https://github.com/ppaAndGitHub.png'
+    imageUrl = 'images/avatar.jpg'
     imageWidth = 160
     imageHeight = 160
     imageTitle = '头像'

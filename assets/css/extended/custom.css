@@ -1,0 +1,19 @@
+.main .profile .profile_inner h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.main .profile .profile_inner > span {
+  line-height: 1.6;
+  max-width: 28rem;
+  color: var(--secondary);
+}
+
+.main .profile .buttons .button {
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.main .profile .buttons .button:hover {
+  transform: translateY(-1px);
+}

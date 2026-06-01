@@ -1,6 +1,55 @@
-
 baseURL = 'https://ppaAndGitHub.github.io/'
-locale = 'en-us'
-title = 'My New Hugo Project'
-theme = "PaperMod"
+defaultContentLanguage = 'zh-cn'
+locale = 'zh-cn'
+title = '你的名字'
+theme = 'PaperMod'
 publishDir = 'docs'
+
+[params]
+  env = 'production'
+  defaultTheme = 'auto'
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = false
+  ShowCodeCopyButtons = true
+
+  [params.profileMode]
+    enabled = true
+    title = '你的名字'
+    subtitle = '''
+一名热爱技术的开发者。
+欢迎来访我的个人主页。
+'''
+    imageUrl = 'https://github.com/ppaAndGitHub.png'
+    imageWidth = 160
+    imageHeight = 160
+    imageTitle = '头像'
+
+    [[params.profileMode.buttons]]
+      name = '博客'
+      url = 'posts/'
+
+    [[params.profileMode.buttons]]
+      name = 'GitHub'
+      url = 'https://github.com/ppaAndGitHub'
+
+  [[params.socialIcons]]
+    name = 'github'
+    url = 'https://github.com/ppaAndGitHub'
+
+[menu]
+  [[menu.main]]
+    identifier = 'home'
+    name = '主页'
+    url = '/'
+    weight = 10
+
+  [[menu.main]]
+    identifier = 'posts'
+    name = '文章'
+    url = '/posts/'
+    weight = 20
+
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']

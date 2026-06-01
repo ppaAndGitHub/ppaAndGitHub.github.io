@@ -1,7 +1,7 @@
 baseURL = 'https://ppaAndGitHub.github.io/'
 defaultContentLanguage = 'zh-cn'
 locale = 'zh-cn'
-title = 'yyt'
+title = '尹艳婷'
 theme = 'PaperMod'
 publishDir = 'docs'
 
@@ -16,7 +16,7 @@ publishDir = 'docs'
 
   [params.profileMode]
     enabled = true
-    title = 'yyt'
+    title = '尹艳婷'
     subtitle = '''
 前端开发工程师 · 深圳
 
@@ -26,7 +26,7 @@ publishDir = 'docs'
     imageUrl = 'images/avatar.jpg'
     imageWidth = 160
     imageHeight = 160
-    imageTitle = 'yyt'
+    imageTitle = '尹艳婷'
 
     [[params.profileMode.buttons]]
       name = '关于我'

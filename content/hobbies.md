@@ -1,6 +1,6 @@
 ---
 title: "爱好与特点"
-description: "yyt 的日常与个人特点"
+description: "尹艳婷的日常与个人特点"
 showToc: false
 ShowBreadCrumbs: true
 ---

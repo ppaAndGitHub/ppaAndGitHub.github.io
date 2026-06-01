@@ -1,6 +1,6 @@
 ---
 title: "工作经历"
-description: "yyt 的职业经历与代表项目"
+description: "尹艳婷的职业经历与代表项目"
 showToc: true
 ShowBreadCrumbs: true
 ---

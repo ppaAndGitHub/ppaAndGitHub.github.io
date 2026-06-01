@@ -253,3 +253,75 @@ body.home-revealed:has(.main .profile) .main .profile .profile_inner {
   font-size: 1rem;
   color: var(--secondary);
 }
+
+/* ===== 文章页：纸飞机线条背景 ===== */
+body:has(#posts-paper-bg) {
+  background: #f7f5f0 !important;
+}
+
+:root[data-theme="dark"] body:has(#posts-paper-bg) {
+  background: #16171c !important;
+}
+
+body:has(#posts-paper-bg).list {
+  background: #f7f5f0 !important;
+}
+
+:root[data-theme="dark"] body:has(#posts-paper-bg).list {
+  background: #16171c !important;
+}
+
+#posts-paper-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#posts-paper-bg .posts-paper-sky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 10% 0%, rgba(199, 210, 254, 0.35), transparent 50%),
+    radial-gradient(ellipse 80% 60% at 90% 100%, rgba(186, 230, 253, 0.3), transparent 55%),
+    linear-gradient(180deg, #f9f7f2 0%, #f3f0e8 50%, #f7f5f0 100%);
+}
+
+:root[data-theme="dark"] #posts-paper-bg .posts-paper-sky {
+  background:
+    radial-gradient(ellipse 90% 70% at 15% 5%, rgba(99, 102, 241, 0.12), transparent 50%),
+    radial-gradient(ellipse 80% 60% at 85% 95%, rgba(6, 182, 212, 0.1), transparent 55%),
+    linear-gradient(180deg, #14151a 0%, #16171c 50%, #121318 100%);
+}
+
+#posts-paper-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body:has(#posts-paper-bg) .header,
+body:has(#posts-paper-bg) .main,
+body:has(#posts-paper-bg) .footer {
+  position: relative;
+  z-index: 1;
+}
+
+body:has(#posts-paper-bg) .post-entry,
+body:has(#posts-paper-bg) .post-single {
+  background: color-mix(in srgb, var(--entry) 92%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+body:has(#posts-paper-bg) .post-content {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #posts-paper-canvas {
+    opacity: 0.85;
+  }
+}

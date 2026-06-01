@@ -5,3 +5,11 @@
 </div>
 <script src="{{ "js/home-bg.js" | relURL }}" defer></script>
 {{- end }}
+
+{{- if eq .Section "posts" }}
+<div id="posts-paper-bg" aria-hidden="true">
+  <div class="posts-paper-sky"></div>
+  <canvas id="posts-paper-canvas"></canvas>
+</div>
+<script src="{{ "js/posts-paper-planes.js" | relURL }}" defer></script>
+{{- end }}

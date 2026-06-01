@@ -53,6 +53,61 @@ body.list:has(.main .profile) .footer {
   z-index: 1;
 }
 
+/* 星球碰撞入场：碰撞前隐藏主页 */
+body.home-intro-pending:has(.main .profile) .header,
+body.home-intro-pending:has(.main .profile) .main,
+body.home-intro-pending:has(.main .profile) .footer {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.home-intro-pending:has(.main .profile) .main .profile {
+  transform: scale(0.92) translateY(12px);
+}
+
+body.home-revealed:has(.main .profile) .header,
+body.home-revealed:has(.main .profile) .main,
+body.home-revealed:has(.main .profile) .footer {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 1.35s ease;
+}
+
+body.home-revealed:has(.main .profile) .main .profile {
+  transform: scale(1) translateY(0);
+  transition:
+    opacity 1.35s ease,
+    transform 1.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.home-revealed:has(.main .profile) .main .profile .profile_inner {
+  animation: profileCardIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+@keyframes profileCardIn {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.home-intro-pending:has(.main .profile) .header,
+  body.home-intro-pending:has(.main .profile) .main,
+  body.home-intro-pending:has(.main .profile) .footer {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  body.home-intro-pending:has(.main .profile) .main .profile {
+    transform: none;
+  }
+}
+
 .main .profile .profile_inner {
   padding: 2rem 2.25rem;
   border-radius: 1.25rem;
@@ -78,6 +133,10 @@ body.list:has(.main .profile) .footer {
 
   #home-bg-canvas {
     display: none;
+  }
+
+  body.home-revealed:has(.main .profile) .main .profile .profile_inner {
+    animation: none;
   }
 }
 

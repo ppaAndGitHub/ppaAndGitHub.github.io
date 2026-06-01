@@ -309,14 +309,14 @@ body:has(#posts-paper-bg) .footer {
   z-index: 1;
 }
 
-body:has(#posts-paper-bg) .post-entry,
-body:has(#posts-paper-bg) .post-single {
-  background: color-mix(in srgb, var(--entry) 92%, transparent);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+body:has(#posts-paper-bg) .post-card,
+body:has(#posts-paper-bg) .post-article {
+  background: color-mix(in srgb, var(--entry) 94%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-body:has(#posts-paper-bg) .post-content {
+body:has(#posts-paper-bg) .post-article-body {
   background: transparent;
 }
 

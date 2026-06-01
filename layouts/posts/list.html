@@ -1,0 +1,69 @@
+{{- define "main" }}
+{{- $pages := .RegularPages }}
+{{- $paginator := .Paginate $pages }}
+
+<div class="posts-hub">
+  <header class="posts-hero">
+    <nav class="breadcrumbs posts-breadcrumbs" aria-label="Breadcrumb">
+      <a href="{{ "" | absLangURL }}">{{ i18n "home" | default "主页" }}</a>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+      <span aria-current="page">文章</span>
+    </nav>
+    <p class="posts-hero-eyebrow">Journal</p>
+    <h1 class="posts-hero-title">{{ .Title }}</h1>
+    {{- with .Description }}
+    <p class="posts-hero-desc">{{ . }}</p>
+    {{- end }}
+    <p class="posts-hero-meta">{{ len $pages }} 篇文章</p>
+  </header>
+
+  <div class="posts-grid">
+    {{- range $paginator.Pages }}
+    <article class="post-card post-entry">
+      {{- with .Params.tags }}
+      <div class="post-card-tags">
+        {{- range first 3 . }}
+        <span class="post-tag">{{ . }}</span>
+        {{- end }}
+      </div>
+      {{- end }}
+      <header class="entry-header">
+        <h2 class="post-card-title entry-hint-parent">
+          {{- .Title }}
+          {{- if .Draft }}
+          <span class="entry-hint" title="Draft">草稿</span>
+          {{- end }}
+        </h2>
+      </header>
+      {{- if ne (.Param "hideSummary") true }}
+      <div class="entry-content post-card-excerpt">
+        <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}…{{ end }}</p>
+      </div>
+      {{- end }}
+      <footer class="entry-footer post-card-footer">
+        {{- partial "post_meta.html" . -}}
+      </footer>
+      <span class="post-card-cta" aria-hidden="true">阅读全文</span>
+      <a class="entry-link" aria-label="阅读 {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+    </article>
+    {{- end }}
+  </div>
+
+  {{- if gt $paginator.TotalPages 1 }}
+  <footer class="page-footer posts-pagination">
+    <nav class="pagination">
+      {{- if $paginator.HasPrev }}
+      <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">« {{ i18n "prev_page" }}</a>
+      {{- end }}
+      {{- if $paginator.HasNext }}
+      <a class="next" href="{{ $paginator.Next.URL | absURL }}">{{ i18n "next_page" }} »</a>
+      {{- end }}
+    </nav>
+  </footer>
+  {{- end }}
+</div>
+
+{{- end }}

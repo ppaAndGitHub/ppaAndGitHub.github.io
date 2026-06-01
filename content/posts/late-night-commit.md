@@ -3,8 +3,9 @@ date = '2026-05-24T22:30:00+08:00'
 draft = false
 title = '写给深夜的 commit'
 summary = '有人说程序员浪漫，大概浪漫在：我们总相信，再推一次，世界就会好一点。'
-tags = ['随笔']
+tags = ['随笔', '程序员']
 ShowReadingTime = true
+ShowBreadCrumbs = false
 +++
 
 有人说，程序员不浪漫。

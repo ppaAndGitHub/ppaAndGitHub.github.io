@@ -1,0 +1,62 @@
+{{- define "main" }}
+
+<article class="post-single post-article">
+  <header class="post-header post-article-header">
+    <nav class="breadcrumbs post-article-breadcrumbs" aria-label="Breadcrumb">
+      <a href="{{ "" | absLangURL }}">{{ i18n "home" | default "主页" }}</a>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+      <a href="{{ "/posts/" | absLangURL }}">文章</a>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+      <span aria-current="page">{{ .Title }}</span>
+    </nav>
+
+    {{- with .Params.tags }}
+    <div class="post-article-tags">
+      {{- range . }}
+      <a class="post-tag" href="{{ "/tags/" | absLangURL }}{{ . | urlize }}/">{{ . }}</a>
+      {{- end }}
+    </div>
+    {{- end }}
+
+    <h1 class="post-title post-article-title">{{ .Title }}</h1>
+
+    {{- if .Description }}
+    <p class="post-description post-article-lead">{{ .Description }}</p>
+    {{- else if .Summary }}
+    <p class="post-description post-article-lead">{{ .Summary | plainify }}</p>
+    {{- end }}
+
+    {{- if not (.Param "hideMeta") }}
+    <div class="post-meta post-article-meta">
+      {{- partial "post_meta.html" . -}}
+    </div>
+    {{- end }}
+  </header>
+
+  {{- if (.Param "ShowToc") }}
+  {{- partial "toc.html" . }}
+  {{- end }}
+
+  {{- if .Content }}
+  <div class="post-content md-content post-article-body">
+    {{- if not (.Param "disableAnchoredHeadings") }}
+    {{- partial "anchored_headings.html" .Content -}}
+    {{- else }}{{ .Content }}{{ end }}
+  </div>
+  {{- end }}
+
+  <footer class="post-footer post-article-footer">
+    <a class="post-back-link" href="{{ "/posts/" | absLangURL }}">← 返回文章列表</a>
+    {{- if (.Param "ShowPostNavLinks") }}
+    {{- partial "post_nav_links.html" . }}
+    {{- end }}
+  </footer>
+</article>
+
+{{- end }}

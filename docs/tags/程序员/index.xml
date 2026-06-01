@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>文章 on 艳婷</title>
-    <link>https://ppaAndGitHub.github.io/posts/</link>
-    <description>Recent content in 文章 on 艳婷</description>
+    <title>程序员 on 艳婷</title>
+    <link>https://ppaAndGitHub.github.io/tags/%E7%A8%8B%E5%BA%8F%E5%91%98/</link>
+    <description>Recent content in 程序员 on 艳婷</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate>Sun, 24 May 2026 22:30:00 +0800</lastBuildDate>
-    <atom:link href="https://ppaAndGitHub.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://ppaAndGitHub.github.io/tags/%E7%A8%8B%E5%BA%8F%E5%91%98/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>写给深夜的 commit</title>
       <link>https://ppaAndGitHub.github.io/posts/late-night-commit/</link>
       <pubDate>Sun, 24 May 2026 22:30:00 +0800</pubDate>
       <guid>https://ppaAndGitHub.github.io/posts/late-night-commit/</guid>
       <description>有人说程序员浪漫，大概浪漫在：我们总相信，再推一次，世界就会好一点。</description>
-    </item>
-    <item>
-      <title>站点上线</title>
-      <link>https://ppaAndGitHub.github.io/posts/hello-world/</link>
-      <pubDate>Sat, 23 May 2026 20:43:26 +0800</pubDate>
-      <guid>https://ppaAndGitHub.github.io/posts/hello-world/</guid>
-      <description>个人主页部署到 GitHub Pages，开始在这里写字。</description>
     </item>
   </channel>
 </rss>

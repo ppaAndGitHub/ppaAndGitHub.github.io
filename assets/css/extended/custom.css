@@ -1,3 +1,86 @@
+/* ===== 首页动效背景（仅 Profile 首页）===== */
+body.list:has(.main .profile) {
+  background: transparent !important;
+}
+
+#home-animated-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#home-animated-bg .home-bg-gradient {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(99, 102, 241, 0.22), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 80% 30%, rgba(14, 165, 233, 0.18), transparent 50%),
+    radial-gradient(ellipse 60% 55% at 50% 90%, rgba(236, 72, 153, 0.12), transparent 55%),
+    linear-gradient(160deg, #f8fafc 0%, #eef2ff 45%, #f0f9ff 100%);
+  animation: homeBgShift 18s ease-in-out infinite alternate;
+}
+
+:root[data-theme="dark"] #home-animated-bg .home-bg-gradient {
+  background:
+    radial-gradient(ellipse 80% 60% at 15% 25%, rgba(99, 102, 241, 0.28), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 85% 35%, rgba(6, 182, 212, 0.2), transparent 50%),
+    radial-gradient(ellipse 60% 55% at 55% 85%, rgba(192, 132, 252, 0.15), transparent 55%),
+    linear-gradient(160deg, #0f1117 0%, #151829 45%, #12141c 100%);
+}
+
+#home-bg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes homeBgShift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(-2%, -1.5%) scale(1.04);
+  }
+}
+
+body.list:has(.main .profile) .header,
+body.list:has(.main .profile) .main,
+body.list:has(.main .profile) .footer {
+  position: relative;
+  z-index: 1;
+}
+
+.main .profile .profile_inner {
+  padding: 2rem 2.25rem;
+  border-radius: 1.25rem;
+  background: color-mix(in srgb, var(--theme) 78%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+:root[data-theme="dark"] .main .profile .profile_inner {
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #home-animated-bg .home-bg-gradient {
+    animation: none;
+  }
+
+  #home-bg-canvas {
+    display: none;
+  }
+}
+
 /* ===== 首页名片 ===== */
 .main .profile .profile_inner h1 {
   font-size: 2.35rem;

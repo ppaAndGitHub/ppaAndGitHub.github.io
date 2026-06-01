@@ -14,12 +14,12 @@ body.list:has(.main .profile) {
 #home-animated-bg .home-bg-gradient {
   position: absolute;
   inset: -20%;
+  will-change: transform, background;
   background:
     radial-gradient(ellipse 80% 60% at 20% 20%, rgba(99, 102, 241, 0.22), transparent 55%),
     radial-gradient(ellipse 70% 50% at 80% 30%, rgba(14, 165, 233, 0.18), transparent 50%),
     radial-gradient(ellipse 60% 55% at 50% 90%, rgba(236, 72, 153, 0.12), transparent 55%),
     linear-gradient(160deg, #f8fafc 0%, #eef2ff 45%, #f0f9ff 100%);
-  animation: homeBgShift 18s ease-in-out infinite alternate;
 }
 
 :root[data-theme="dark"] #home-animated-bg .home-bg-gradient {
@@ -35,15 +35,6 @@ body.list:has(.main .profile) {
   inset: 0;
   width: 100%;
   height: 100%;
-}
-
-@keyframes homeBgShift {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  100% {
-    transform: translate(-2%, -1.5%) scale(1.04);
-  }
 }
 
 body.list:has(.main .profile) .header,
@@ -127,10 +118,6 @@ body.home-revealed:has(.main .profile) .main .profile .profile_inner {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #home-animated-bg .home-bg-gradient {
-    animation: none;
-  }
-
   #home-bg-canvas {
     display: none;
   }

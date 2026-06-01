@@ -38,6 +38,9 @@
   let planets = [];
   let introDone = false;
 
+  const gradientEl = wrap.querySelector(".home-bg-gradient");
+  const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, active: false };
+
   const particleConfig = {
     count: 48,
     maxDist: 130,
@@ -184,22 +187,94 @@
       y: Math.random() * h,
       vx: (Math.random() - 0.5) * particleConfig.speed,
       vy: (Math.random() - 0.5) * particleConfig.speed,
+      depth: 0.35 + Math.random() * 0.65,
     }));
+  }
+
+  function updateMouse() {
+    mouse.x += (mouse.tx - mouse.x) * 0.07;
+    mouse.y += (mouse.ty - mouse.y) * 0.07;
+  }
+
+  function updateGradientParallax() {
+    if (!gradientEl) return;
+    const dx = (mouse.x - 0.5) * 48;
+    const dy = (mouse.y - 0.5) * 40;
+    const scale = 1.04 + (mouse.active ? 0.02 : 0);
+    gradientEl.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+
+    const g1x = 20 + (mouse.x - 0.5) * 22;
+    const g1y = 20 + (mouse.y - 0.5) * 18;
+    const g2x = 80 + (mouse.x - 0.5) * 18;
+    const g2y = 30 + (mouse.y - 0.5) * 16;
+    const g3x = 50 + (mouse.x - 0.5) * 14;
+    const g3y = 90 + (mouse.y - 0.5) * 12;
+    const dark = getTheme() === "dark";
+    if (dark) {
+      gradientEl.style.background = `
+        radial-gradient(ellipse 80% 60% at ${g1x}% ${g1y}%, rgba(99, 102, 241, 0.28), transparent 55%),
+        radial-gradient(ellipse 70% 50% at ${g2x}% ${g2y}%, rgba(6, 182, 212, 0.2), transparent 50%),
+        radial-gradient(ellipse 60% 55% at ${g3x}% ${g3y}%, rgba(192, 132, 252, 0.15), transparent 55%),
+        linear-gradient(160deg, #0f1117 0%, #151829 45%, #12141c 100%)`;
+    } else {
+      gradientEl.style.background = `
+        radial-gradient(ellipse 80% 60% at ${g1x}% ${g1y}%, rgba(99, 102, 241, 0.22), transparent 55%),
+        radial-gradient(ellipse 70% 50% at ${g2x}% ${g2y}%, rgba(14, 165, 233, 0.18), transparent 50%),
+        radial-gradient(ellipse 60% 55% at ${g3x}% ${g3y}%, rgba(236, 72, 153, 0.12), transparent 55%),
+        linear-gradient(160deg, #f8fafc 0%, #eef2ff 45%, #f0f9ff 100%)`;
+    }
+  }
+
+  function drawMouseGlow() {
+    if (!mouse.active || phase !== "idle") return;
+    const mx = mouse.x * w;
+    const my = mouse.y * h;
+    const dark = getTheme() === "dark";
+    const grd = ctx.createRadialGradient(mx, my, 0, mx, my, 180);
+    grd.addColorStop(0, dark ? "rgba(167, 139, 250, 0.16)" : "rgba(99, 102, 241, 0.14)");
+    grd.addColorStop(0.45, dark ? "rgba(129, 140, 248, 0.06)" : "rgba(14, 165, 233, 0.07)");
+    grd.addColorStop(1, "transparent");
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, w, h);
   }
 
   function drawParticles() {
     const palette =
       getTheme() === "dark" ? particleConfig.dark : particleConfig.light;
+    const mx = mouse.x * w;
+    const my = mouse.y * h;
+    const parallaxX = (mouse.x - 0.5) * 36;
+    const parallaxY = (mouse.y - 0.5) * 28;
+
     for (const p of particles) {
+      if (mouse.active) {
+        const dx = mx - p.x;
+        const dy = my - p.y;
+        const dist = Math.hypot(dx, dy) || 1;
+        if (dist < 200) {
+          const pull = ((200 - dist) / 200) * 0.022 * p.depth;
+          p.vx += (dx / dist) * pull;
+          p.vy += (dy / dist) * pull;
+        }
+      }
+      p.vx *= 0.995;
+      p.vy *= 0.995;
       p.x += p.vx;
       p.y += p.vy;
       if (p.x < 0 || p.x > w) p.vx *= -1;
       if (p.y < 0 || p.y > h) p.vy *= -1;
     }
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const a = particles[i];
-        const b = particles[j];
+
+    const positions = particles.map((p) => ({
+      x: p.x + parallaxX * p.depth,
+      y: p.y + parallaxY * p.depth,
+      p,
+    }));
+
+    for (let i = 0; i < positions.length; i++) {
+      for (let j = i + 1; j < positions.length; j++) {
+        const a = positions[i];
+        const b = positions[j];
         const dist = Math.hypot(a.x - b.x, a.y - b.y);
         if (dist < particleConfig.maxDist) {
           ctx.strokeStyle = palette.line;
@@ -213,10 +288,10 @@
       }
     }
     ctx.globalAlpha = 1;
-    for (const p of particles) {
+    for (const { x, y, p } of positions) {
       ctx.fillStyle = palette.dot;
       ctx.beginPath();
-      ctx.arc(p.x, p.y, palette.dotSize, 0, Math.PI * 2);
+      ctx.arc(x, y, palette.dotSize * (0.85 + p.depth * 0.2), 0, Math.PI * 2);
       ctx.fill();
     }
   }
@@ -228,7 +303,12 @@
 
     if (elapsed < TIMING.approach) {
       const t = elapsed / TIMING.approach;
-      planets.forEach((p) => drawPlanet(p, planetX(p, t)));
+      const parallax = (mouse.x - 0.5) * 18;
+      planets.forEach((p) => {
+        const baseX = planetX(p, t);
+        const offset = p.side === "left" ? -parallax : parallax;
+        drawPlanet(p, baseX + offset);
+      });
       return;
     }
 
@@ -305,9 +385,19 @@
     return;
   }
 
+  function setMouseFromEvent(clientX, clientY) {
+    if (!w || !h) return;
+    mouse.tx = clientX / w;
+    mouse.ty = clientY / h;
+    mouse.active = true;
+  }
+
   function tick(ts) {
     if (!startTs) startTs = ts;
     const elapsed = ts - startTs;
+
+    updateMouse();
+    updateGradientParallax();
 
     ctx.clearRect(0, 0, w, h);
 
@@ -316,6 +406,7 @@
     }
 
     if (phase === "idle") {
+      drawMouseGlow();
       drawParticles();
     }
 
@@ -335,6 +426,23 @@
     resize();
     raf = requestAnimationFrame(tick);
   }
+
+  window.addEventListener("mousemove", (e) => setMouseFromEvent(e.clientX, e.clientY));
+
+  window.addEventListener(
+    "touchmove",
+    (e) => {
+      const t = e.touches[0];
+      if (t) setMouseFromEvent(t.clientX, t.clientY);
+    },
+    { passive: true }
+  );
+
+  window.addEventListener("mouseleave", () => {
+    mouse.active = false;
+    mouse.tx = 0.5;
+    mouse.ty = 0.5;
+  });
 
   window.addEventListener("resize", () => {
     resize();
